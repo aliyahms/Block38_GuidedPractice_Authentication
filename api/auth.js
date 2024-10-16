@@ -68,6 +68,13 @@ router.post("/login", async (req, res, next) => {
 });
 
 /** Checks the request for an authenticated customer. */
+// The first token-checking middleware earlier in the file will look in the request headers for a token.
+//It will try to grab a customer id from that token.
+//If a customer is found with that id, it is attached to req.customer.
+
+//So, if req.customer exists, that means the customer is successfully logged in
+//and we can proceed to the next middleware (whatever that might happen to be).
+//Otherwise, we will skip directly to sending a 401 error.
 function authenticate(req, res, next) {
   if (req.customer) {
     next();

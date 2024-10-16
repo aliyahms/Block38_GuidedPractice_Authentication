@@ -8,6 +8,8 @@ const { authenticate } = require("./auth");
 
 // GET / ROUTE
 // It should only be accessible to a customer that is logged in.
+// Any requests to GET /reservations will first go through the authenticate middleware.
+
 router.get("/", authenticate, async (req, res, next) => {
   // TODO: Send reservations made by the logged in customer
   try {
@@ -16,6 +18,7 @@ router.get("/", authenticate, async (req, res, next) => {
       include: { restaurant: true }, // Include the restaurant of each reservation.
     });
     res.json(reservations);
+    //If the customer is not logged in, then the request will automatically send an error.
   } catch (e) {
     next(e);
   }
